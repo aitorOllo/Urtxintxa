@@ -68,18 +68,24 @@ if __name__ == '__main__':
 	while True:
 		if (not timerOwl.isAlive()) and (isNight):
 			print ("Starting sound")
-			timerOwl = threading.Timer(randint(45,75)*60, player.reproduceSound,["owl1.wav"])
+			timerOwl = threading.Timer(0, player.reproduceSound,["owl1.wav"])
 			timerOwl.start()
 		if not timerSprinkler1.isAlive():
 			print ("Starting sprinkler 1")
-			timerSprinkler1 = threading.Timer(randint(15,20)*60, sendCommand, [arduino, SPRINKLER1])
+			if isNight:
+				timerSprinkler1 = threading.Timer(randint(15,20)*60, sendCommand, [arduino, SPRINKLER1])
+			else:
+				timerSprinkler1 = threading.Timer(randint(55,65)*60, sendCommand, [arduino, SPRINKLER1])
 			timerSprinkler1.start()
 		if not timerSprinkler2.isAlive():
 			print ("Starting sprinkler 2")
-			timerSprinkler2 = threading.Timer(randint(15,20)*60, sendCommand, [arduino, SPRINKLER2])
+			if isNight:
+				timerSprinkler2 = threading.Timer(randint(15,20)*60, sendCommand, [arduino, SPRINKLER2])
+			else:
+				timerSprinkler2 = threading.Timer(randint(55,65)*60, sendCommand, [arduino, SPRINKLER2])
 			timerSprinkler2.start()
 		if not timerLight.isAlive():
 			print ("Starting Light")
-			timerLight = threading.Timer(10*60, sendCommand, [arduino, LIGHT])
+			timerLight = threading.Timer(10, sendCommand, [arduino, LIGHT])
 			timerLight.start()
 	arduino.close();
