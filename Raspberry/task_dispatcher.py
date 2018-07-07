@@ -21,40 +21,41 @@ from random import randint
 SPRINKLER1 = 0x01
 SPRINKLER2 = 0x02
 LIGHT = 0x03
+NOISE = 0x04
 
 isNight = False
 
-def sendCommand(arduino,device):
+def sendCommand(serialConnection,device):
 
 	if device == SPRINKLER1:
-		print "Send ON command to Arduino"
-		arduino.write('a')
+		print "Send ON command through serial connection"
+		serialConnection.write('a')
 		time.sleep(10)
-		print "Send OFF command to Arduino"
-		arduino.write('b')
+		print "Send OFF command through serial connection"
+		serialConnection.write('b')
 	elif device == SPRINKLER2:
-		print "Send ON command to Arduino"
-		arduino.write('c')
+		print "Send ON command through serial connection"
+		serialConnection.write('c')
 		time.sleep(10)
-		print "Send OFF command to Arduino"
-		arduino.write('d')
+		print "Send OFF command through serial connection"
+		serialConnection.write('d')
 	elif device == LIGHT:
-		print "Ask Arduino if it is night"
-		arduino.write('e')
+		print "Ask through serial connection if it is night"
+		serialConnection.write('e')
 		time.sleep(0.1)
 		global isNight
 		readValue = ''
-		while arduino.inWaiting() > 0:
-			readValue = arduino.read(1)
-			print ("Read from arduino: {0}".format(readValue))
+		while serialConnection.inWaiting() > 0:
+			readValue = serialConnection.read(1)
+			print ("Read through serial connection: {0}".format(readValue))
 		if readValue =='z':
 			isNight = True
-			print "Send ON command to Arduino"
-			arduino.write('f')
+			print "Send ON command through serial connection"
+			serialConnection.write('f')
 		elif readValue  == 'y':
 			isNight = False
-			print "Send OFF command to Arduino"
-			arduino.write('g')
+			print "Send OFF command through serial connection"
+			serialConnection.write('g')
 
 if __name__ == '__main__':
 	#Open serial connection
