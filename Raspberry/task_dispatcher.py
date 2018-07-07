@@ -56,6 +56,12 @@ def sendCommand(serialConnection,device):
 			isNight = False
 			print "Send OFF command through serial connection"
 			serialConnection.write('g')
+	elif device == NOISE:
+		print "Send ON command through serial connection"
+		serialConnection.write('h')
+		time.sleep(10)
+		print "Send OFF command through serial connection"
+		serialConnection.write('i')
 
 if __name__ == '__main__':
 	#Open serial connection
@@ -65,6 +71,7 @@ if __name__ == '__main__':
 	timerSprinkler1 = threading.Timer(0,0)
 	timerSprinkler2 = threading.Timer(0,0)
 	timerLight = threading.Timer(0,0)
+	timerNoise = threading.Timer(0,0)
 	#Main infinite loop
 	while True:
 		if (not timerOwl.isAlive()) and (isNight):
@@ -89,4 +96,11 @@ if __name__ == '__main__':
 			print ("Starting Light")
 			timerLight = threading.Timer(10, sendCommand, [arduino, LIGHT])
 			timerLight.start()
+		if not timerNoise.isAlive():
+			print ("Starting Noise")
+			if isNight:
+				timerNoise = threading.Timer(randint(15,20)*60, sendCommand, [arduino, NOISE])
+			else:
+				timerNoise = threading.Timer(randint(55,65)*60, sendCommand, [arduino, NOISE])
+			timerNoise.start()
 	arduino.close();
