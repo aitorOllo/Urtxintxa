@@ -1,6 +1,7 @@
 const int sprinkler1 = 2;
 const int sprinkler2 = 4;
 const int light = 7;
+const int noise = 13;
 const int lightSensorPin = A0;
 const int autoOnPin = 8;
 const int dayNightPin = 12;
@@ -14,11 +15,13 @@ void setup() {
   pinMode(sprinkler1, OUTPUT);
   pinMode(sprinkler2, OUTPUT);
   pinMode(light, OUTPUT);
+  pinMode(noise, OUTPUT);
   pinMode(autoOnPin, INPUT);
   pinMode(dayNightPin, INPUT);
   
   digitalWrite(sprinkler1, HIGH);
   digitalWrite(sprinkler2, HIGH);
+  digitalWrite(noise, HIGH);
   digitalWrite(light, HIGH);
          
   lightValue = analogRead(lightSensorPin);
@@ -42,10 +45,14 @@ void loop() {
          digitalWrite(sprinkler2, HIGH);
       }else if (instruction == 'e') { //If it is an 'e', return day/night
          Serial.write(getIsNight());
-      }else if (instruction == 'f') { //If it is a 'g', switch light ON
+      }else if (instruction == 'f') { //If it is a 'f', switch light ON
          digitalWrite(light, LOW);
-      }else if (instruction == 'g') { //If it is a 'b', switch light OFF
+      }else if (instruction == 'g') { //If it is a 'g', switch light OFF
          digitalWrite(light, HIGH);
+      }else if (instruction == 'h') { //If it is a 'h', switch noise ON
+         digitalWrite(noise, LOW);
+      }else if (instruction == 'i') { //If it is a 'i', switch noise OFF
+         digitalWrite(noise, HIGH);
       }
    }
 }
